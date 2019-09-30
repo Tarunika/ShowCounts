@@ -55,20 +55,27 @@ void loop()
     if (redState[i] == HIGH && state[i] == HIGH) {
       leds[i].r = 50;
       redState[i] = LOW; 
+      FastLED.show();
+      delay(2000);
       i = i + 1;
     } else if (greenState[i] == HIGH && state[i] == HIGH) {
       Serial.println("Green detected");
       leds[i].g = 100; 
-      greenState[i] == LOW;
+      greenState[i] = LOW;
+      delay(2000);
+      FastLED.show();
       i = i + 1;
     } else if (blueState[i] == HIGH && state[i] == HIGH) {
       leds[i].b = 150;
       blueState[1] = LOW; 
+      FastLED.show();
+      delay(2000);
       i = i + 1;
     }
 
-    FastLED.show();
+    /*FastLED.show();
     delay(2000);
+    */
 
   /*  if (digitalRead(redSensor) == HIGH || digitalRead(greenSensor) == HIGH || digitalRead(blueSensor) == HIGH) {
       i = i + 1;
