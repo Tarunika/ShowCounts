@@ -38,6 +38,15 @@ void setup()
   Serial.begin(9600);
 
 }
+
+void turnOn(int colorState[], CRGB color) {
+  leds[index] = color; 
+  colorState[index] = LOW;
+  FastLED.show();
+  delay(4000);
+  index = index + 1;
+}
+
 void loop()
 {
   redState[index] = digitalRead(redSensor);   // read redSensor value
@@ -47,30 +56,16 @@ void loop()
     state[index] = HIGH;       // update the current individual led state to HIGH
   }
 
-  if (redState[index] == HIGH && state[index] == HIGH) {
-    leds[index].r = 50;
-    redState[index] = LOW;
-    FastLED.show();
-    delay(2000);
-    index = index + 1;
-  } else if (greenState[index] == HIGH && state[index] == HIGH) {
-    leds[index].g = 100;
-    greenState[index] = LOW;
-    FastLED.show();
-    delay(2000);
-    index = index + 1;
-  } else if (blueState[index] == HIGH && state[index] == HIGH) {
-    leds[index].b = 150;
-    blueState[index] = LOW;
-    FastLED.show();
-    delay(2000);
-    index = index + 1;
+  if (state[index] == HIGH) {
+    if (redState[index] == HIGH) turnOn(redState, CRGB :: Red);
+    if (greenState[index] == HIGH) turnOn(greenState, CRGB :: Green);
+    if (blueState[index] == HIGH) turnOn(blueState, CRGB :: Blue);
   }
 
   if (index + 1 == NUM_LEDS) {
     for (int i = 0; i < NUM_LEDS; i++) {
       leds[i] = 0;
-      index = 0; 
+      index = 0;
     }
   }
 }
