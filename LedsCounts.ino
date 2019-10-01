@@ -19,9 +19,7 @@ int redState[NUM_LEDS] = {0};             // variable to store the redSensor sta
 int greenState[NUM_LEDS] = {0};           // variable to Store the greenSensor status (value)
 int blueState[NUM_LEDS] = {0};            // variable to store the blueSensor status (value)
 int LedFlag = 0;
-
-
-
+int index = 0;
 
 // this creates an LED array to hold the values for each led in your strip
 CRGB leds[NUM_LEDS];
@@ -42,53 +40,37 @@ void setup()
 }
 void loop()
 {
+  redState[index] = digitalRead(redSensor);   // read redSensor value
+  blueState[index] = digitalRead(blueSensor); // read blueSensor value
+  greenState[index] = digitalRead(greenSensor); // read greenSensor value
+  if ((redState[index] == HIGH || greenState[index] == HIGH || blueState[index] == HIGH) && state[index] == LOW) {
+    state[index] = HIGH;       // update the current individual led state to HIGH
+  }
 
-  for (int i = 0; i < NUM_LEDS; ) {
-    redState[i] = digitalRead(redSensor);   // read redSensor value
-    blueState[i] = digitalRead(blueSensor); // read blueSensor value
-    greenState[1] = digitalRead(greenSensor); // read greenSensor value
-    if ((redState[i] == HIGH || greenState[i] == HIGH || blueState[i] == HIGH) && state[i] == LOW) {
-       /*Serial.println("Motion detected!");*/
-       state[i] = HIGH;       // update the current individual led state to HIGH
-      }
-
-    if (redState[i] == HIGH && state[i] == HIGH) {
-      leds[i].r = 50;
-      redState[i] = LOW; 
-      FastLED.show();
-      delay(2000);
-      i = i + 1;
-    } else if (greenState[i] == HIGH && state[i] == HIGH) {
-      Serial.println("Green detected");
-      leds[i].g = 100; 
-      greenState[i] = LOW;
-      delay(2000);
-      FastLED.show();
-      i = i + 1;
-    } else if (blueState[i] == HIGH && state[i] == HIGH) {
-      leds[i].b = 150;
-      blueState[1] = LOW; 
-      FastLED.show();
-      delay(2000);
-      i = i + 1;
-    }
-
-    /*FastLED.show();
+  if (redState[index] == HIGH && state[index] == HIGH) {
+    leds[index].r = 50;
+    redState[index] = LOW;
+    FastLED.show();
     delay(2000);
-    */
-
-  /*  if (digitalRead(redSensor) == HIGH || digitalRead(greenSensor) == HIGH || digitalRead(blueSensor) == HIGH) {
-      i = i + 1;
-      Serial.print(i);
-    }*/
-
-
+    index = index + 1;
+  } else if (greenState[index] == HIGH && state[index] == HIGH) {
+    leds[index].g = 100;
+    greenState[index] = LOW;
+    FastLED.show();
+    delay(2000);
+    index = index + 1;
+  } else if (blueState[index] == HIGH && state[index] == HIGH) {
+    leds[index].b = 150;
+    blueState[index] = LOW;
+    FastLED.show();
+    delay(2000);
+    index = index + 1;
   }
 
-  for ( int i = 0; i < NUM_LEDS; i++)
-  {
-    leds[i] = 0;
+  if (index + 1 == NUM_LEDS) {
+    for (int i = 0; i < NUM_LEDS; i++) {
+      leds[i] = 0;
+      index = 0; 
+    }
   }
-
-
 }
