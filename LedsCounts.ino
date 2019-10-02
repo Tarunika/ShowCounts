@@ -11,7 +11,7 @@
 #define LED_TYPE    WS2812B
 #define BRIGHTNESS          50
 int LEDbrightness;
-int redSensor = 2;              // the pin that the redSensor is atteched to
+int redSensor = 2;                        // the pin that the redSensor is atteched to
 int greenSensor = 4;
 int blueSensor = 5;
 int state[NUM_LEDS] = {LOW};              // by default, no motion detected
@@ -40,7 +40,7 @@ void setup()
 }
 
 void turnOn(int colorState[], CRGB color) {
-  leds[index] = color; 
+  leds[index] = color;
   colorState[index] = LOW;
   FastLED.show();
   delay(4000);
@@ -62,7 +62,7 @@ void loop()
     if (blueState[index] == HIGH) turnOn(blueState, CRGB :: Blue);
   }
 
-  if (index + 1 == NUM_LEDS) {
+  if (index == NUM_LEDS) {
     for (int i = 0; i < NUM_LEDS; i++) {
       leds[i] = 0;
       index = 0;
